@@ -1,4 +1,10 @@
 --Part 1
+--
+-- job table:
+   -- id int
+   -- employer varchar
+   -- name varchar
+   -- skills varchar
 
 --Part 2
 
