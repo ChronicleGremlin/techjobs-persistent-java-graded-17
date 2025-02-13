@@ -49,16 +49,20 @@ public class ListController {
 
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
-        Iterable<Job> jobs;
-        if (column.toLowerCase().equals("all")){
-            jobs = jobRepository.findAll();
-            model.addAttribute("title", "All Jobs");
-        } else {
-            jobs = JobData.findByColumnAndValue(column, value, jobRepository.findAll());
-            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
-        }
-        model.addAttribute("jobs", jobs);
 
+        Iterable<Job> jobs; // Declare a variable to hold the job listings
+
+        // Check if the user wants to see all jobs
+        if (column.toLowerCase().equals("all")){
+            jobs = jobRepository.findAll(); // Retrieve all jobs from the repository
+            model.addAttribute("title", "All Jobs");  // Set the title for the view
+        } else {
+            // Filter jobs based on the specified column and value
+            jobs = JobData.findByColumnAndValue(column, value, jobRepository.findAll());
+            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value); // Set a dynamic title
+        }
+
+        model.addAttribute("jobs", jobs); // Add the jobs to the model for the view
         return "list-jobs";
     }
 }

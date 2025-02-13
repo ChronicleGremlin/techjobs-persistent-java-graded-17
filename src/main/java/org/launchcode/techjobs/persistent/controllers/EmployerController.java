@@ -35,14 +35,14 @@ public class EmployerController {
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid Employer newEmployer,
                                     Errors errors, Model model) {
-
+        // Check for validation errors
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Employer");
-            return "employers/add";
+            return "employers/add"; // Return to the form view if there are errors
         }
-
+        // Save the new employer to the repository
         employerRepository.save(newEmployer);
-        return "redirect:";
+        return "redirect:"; // Redirect to the home page
     }
 
     @GetMapping("view/{employerId}")
