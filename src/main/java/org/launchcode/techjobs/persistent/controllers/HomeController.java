@@ -35,25 +35,18 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model) {
-
         model.addAttribute("title", "MyJobs");
-
-        List jobs = (List<Job>) jobRepository.findAll();
-        model.addAttribute("jobs", jobs );
+        model.addAttribute("jobs", jobRepository.findAll());
 
         return "index";
     }
 
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-	model.addAttribute("title", "Add Job");
-        model.addAttribute(new Job());
-        List employers = (List<Employer>) employerRepository.findAll();
-        model.addAttribute("employers", employers);
-
-        List skills = (List<Skill>) skillRepository.findAll();
-        model.addAttribute("skills", skills);
-
+	    model.addAttribute("title", "Add Job");
+        model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
+        model.addAttribute("job", new Job());
         return "add";
     }
 
@@ -63,26 +56,21 @@ public class HomeController {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
-            List employers = (List<Employer>) employerRepository.findAll();
-            model.addAttribute("employers", employers);
-
-
+            model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
             return "add";
         }
 
         Optional<Employer> optEmployer = employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
             Employer employer = optEmployer.get();
-            newJob.setEmployer((employer));
-
+            newJob.setEmployer(employer);
         }
-
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        newJob.setSkills((skillObjs).toString());
+        newJob.setSkills(skillObjs);
 
         jobRepository.save(newJob);
-
-        return "index";
+        return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
@@ -93,7 +81,7 @@ public class HomeController {
             model.addAttribute("job", job);
             return "view";
         } else {
-            return "index";
+            return "redirect:../";
         }
     }
 

@@ -20,11 +20,6 @@ public class Employer extends AbstractEntity {
     @Size(min = 3, max = 50, message = "Field must be between 3 and 50 characters")
     private String location;
 
-    public Employer(@NotBlank(message = "Field must have one valid name entered")
-                    @Size(min = 3, max = 50, message = "Field must be between 3 and 50 characters") String location) {
-        this.location = location;
-    }
-
     public Employer () {};
 
     public String getLocation() {
@@ -33,5 +28,9 @@ public class Employer extends AbstractEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
     }
 }
